@@ -1,5 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useDispatch } from "react-redux";
+import toast from 'react-hot-toast';
 import { addContact } from "../../redux/contacts/operations";
 import css from "./ContactForm.module.css";
 import * as Yup from "yup";
@@ -24,6 +25,15 @@ export default function ContactForm() {
     actions.resetForm();
   };
 
+  const notify = ()=>{toast('Contact successfully stored', {
+    duration: 4000,
+    position: 'top-center',
+    style: {
+      border: '1px solid black',
+      backgroundColor: '#00ff15'
+    },
+  })}
+
   return (
     <Formik
       initialValues={{
@@ -44,7 +54,7 @@ export default function ContactForm() {
           <Field className={css.input} type="tel" name="number" />
           <ErrorMessage className={css.error} name="number" component="span" />
         </div>
-        <button className={css.btn} type="submit">
+        <button onClick={notify} className={css.btn} type="submit">
           Add contact
         </button>
       </Form>

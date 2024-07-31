@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import { Toaster } from 'react-hot-toast';
 import { Route, Routes } from "react-router-dom";
 import Layout from '../Layout/Layout'
 
@@ -11,6 +12,7 @@ export default function App() {
 
   return (
     <Layout>
+      <Toaster />
       <Suspense>
         <Routes>
           <Route path="/" element={<HomePage />} />
