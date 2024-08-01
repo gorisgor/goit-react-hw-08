@@ -37,9 +37,14 @@ export default function Contact({ contact }) {
         <FaPhoneAlt className={css.icon} />
         <p>{number}</p>
       </div>
+      <div className={css.btnLine}>
+      <button className={css.btn} type="button" >
+        Edit
+      </button>
       <button className={css.btn} type="button" onClick={() => { setOpenModal(true) }}>
         Delete
       </button>
+      </div>
 
       <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} className={css.overlay} popup>
         <Modal.Body className={css.body}>

@@ -15,6 +15,6 @@ export default function UserMenu (){
 };
     return <div className={css.container}>
         <p>Welcome, {user.name}</p>
-        {isLoading ? <AuthLoader/> :<button type='button' onClick={handleClick}>LogOut</button>}
+        {isLoading ? <AuthLoader/> :<button className={css.btn} type='button' onClick={handleClick}>LogOut</button>}
     </div>
 }

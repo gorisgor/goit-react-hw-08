@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { register, login, logout } from "./operations";
+import { register, login, logout, refreshUser } from "./operations";
 
 const authSlice = createSlice({
   name: 'auth',
@@ -15,7 +15,7 @@ const authSlice = createSlice({
     isError: false, 
   },
   extraReducers: (builder) => {
-    builder.addCase(register.pending, (state, action) => {
+    builder.addCase(register.pending, (state) => {
       state.isLoggedIn = false;
       state.token = null;
       state.isLoading = true;
@@ -25,10 +25,10 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.isLoggedIn = true;
-    }).addCase(register.rejected, (state, action) => {
+    }).addCase(register.rejected, (state) => {
       state.isLoading = false;
       state.isError = true;
-    }).addCase(login.pending, (state, action) => {
+    }).addCase(login.pending, (state) => {
       state.isLoading = true;
       state.isError = false;
     }).addCase(login.fulfilled, (state,action)=>{
@@ -36,13 +36,13 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.isLoggedIn = true;
-    }).addCase(login.rejected, (state, action) => {
+    }).addCase(login.rejected, (state) => {
       state.isLoading = false;
       state.isError = true;
-    }).addCase(logout.pending, (state, action) => {
+    }).addCase(logout.pending, (state) => {
       state.isLoading = true;
       state.isError = false;
-    }).addCase(logout.fulfilled, (state,action)=>{
+    }).addCase(logout.fulfilled, (state)=>{
       state.isLoading = false;
       state.user = {
         name: null,
@@ -50,9 +50,19 @@ const authSlice = createSlice({
       };
       state.token = null;
       state.isLoggedIn = false;
-    }).addCase(logout.rejected, (state, action) => {
+    }).addCase(logout.rejected, (state) => {
       state.isLoading = false;
       state.isError = true;
+    }).addCase(refreshUser.pending, (state) => {
+      state.isRefreshing = true;
+    })
+    .addCase(refreshUser.fulfilled, (state, action) => {
+      state.user = action.payload;
+      state.isLoggedIn = true;
+      state.isRefreshing = false;
+    })
+    .addCase(refreshUser.rejected, (state) => {
+      state.isRefreshing = false;
     })
   },
 })

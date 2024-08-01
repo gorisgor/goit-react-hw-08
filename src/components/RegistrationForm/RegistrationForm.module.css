@@ -28,8 +28,8 @@
   }
   
   .btn {
-    min-width: 169px;
-    height: 56px;
+    min-width: 130px;
+    height: 36px;
     font-size: 18px;
     border: none;
     background-color: gray;
@@ -40,8 +40,8 @@
     align-self: center;
   }
   .btn:hover {
-    background-color: darkgray;
+    background-color: rgb(10, 240, 29);
   }
   .btn:focus {
-    background-color: darkgray;
+    background-color: rgb(10, 240, 29);
   }
