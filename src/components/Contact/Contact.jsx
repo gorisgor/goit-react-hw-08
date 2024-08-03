@@ -1,12 +1,12 @@
-import React from 'react';
-import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
+import React from "react";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 import { deleteContact } from "../../redux/contacts/operations";
 import { Button, Modal } from "flowbite-react";
 import { useState } from "react";
 import { FaUser, FaPhoneAlt } from "react-icons/fa";
 import css from "./Contact.module.css";
-
+import EditContactForm from "../EditContactForm/EditContactForm";
 
 export default function Contact({ contact }) {
   const dispatch = useDispatch();
@@ -16,16 +16,19 @@ export default function Contact({ contact }) {
     dispatch(deleteContact(id));
   };
 
-  const notify = ()=>{toast('Contact successfully deleted', {
-    duration: 4000,
-    position: 'top-center',
-    style: {
-      border: '1px solid black',
-      backgroundColor: '#ff7d00'
-    },
-  })}
+  const notifyDelete = () => {
+    toast("Contact successfully deleted", {
+      duration: 4000,
+      position: "top-center",
+      style: {
+        border: "1px solid black",
+        backgroundColor: "#ff7d00",
+      },
+    });
+  };
 
-  const [openModal, setOpenModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   return (
     <div className={css.container}>
@@ -38,32 +41,70 @@ export default function Contact({ contact }) {
         <p>{number}</p>
       </div>
       <div className={css.btnLine}>
-      <button className={css.btn} type="button" >
-        Edit
-      </button>
-      <button className={css.btn} type="button" onClick={() => { setOpenModal(true) }}>
-        Delete
-      </button>
+        <button
+          className={css.btn}
+          type="button"
+          onClick={() => {
+            setOpenEditModal(true);
+          }}
+        >
+          Edit
+        </button>
+        <button
+          className={css.btn}
+          type="button"
+          onClick={() => {
+            setOpenDeleteModal(true);
+          }}
+        >
+          Delete
+        </button>
       </div>
 
-      <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} className={css.overlay} popup>
+      <Modal
+        show={openDeleteModal}
+        size="md"
+        onClose={() => setOpenDeleteModal(false)}
+        className={css.overlay}
+        popup
+      >
         <Modal.Body className={css.body}>
-          <div className={css.content} >
-            <h3 >
-              Are you sure you want to delete this contact?
-            </h3>
+          <div className={css.content}>
+            <h3>Are you sure you want to delete this contact?</h3>
             <div className={css.footer}>
-              <Button className={css.btnyes} onClick={() => (setOpenModal(false), handleDelete(), notify())}>
+              <Button
+                className={css.btnyes}
+                onClick={() => (
+                  setOpenDeleteModal(false), handleDelete(), notifyDelete()
+                )}
+              >
                 Yes, I'm sure
               </Button>
-              <Button className={css.btnno} onClick={() => setOpenModal(false)}>
+              <Button
+                className={css.btnno}
+                onClick={() => setOpenDeleteModal(false)}
+              >
                 No, cancel
               </Button>
             </div>
           </div>
         </Modal.Body>
       </Modal>
+
+      <Modal
+        show={openEditModal}
+        size="md"
+        onClose={() => setOpenEditModal(false)}
+        className={css.overlay}
+        popup
+      >
+        <Modal.Body className={css.body}>
+          <EditContactForm
+            contact={contact}
+            closeModal={() => setOpenEditModal(false)}
+          />
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }
-
